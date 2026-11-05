@@ -77,4 +77,10 @@ infrastructure or third-party dependencies.
 
 ## Publication
 
+The public lists repository is checked out over HTTPS without persisted
+credentials. The `LISTS_DEPLOY_KEY` secret is used only when changed lists must
+be pushed over SSH, with strict verification of GitHub's published host key.
+Temporary key files are removed on success or failure. If SSH authentication fails,
+the workflow reports failure without modifying the published lists.
+
 The [publication workflow](.github/workflows/update-lists.yml) runs on changes to `main`, daily at 03:17 UTC, and on manual dispatch. It tests the generator, builds and validates the subscriptions, refreshes the catalog, then commits the result to the lists repository. A repository-specific deploy key grants this workflow write access only to the lists repository. Changes to source configuration or generator code are made here by maintainers. New upstream data updates only the lists repository; the workflow never commits to or updates the generator itself. The published Raw URLs stay stable.
